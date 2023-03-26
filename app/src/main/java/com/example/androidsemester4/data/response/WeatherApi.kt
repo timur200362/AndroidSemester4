@@ -11,7 +11,6 @@ interface WeatherApi {
     suspend fun getWeather(
         @Query("q") city:String,
         @Query("units") units:String="metric",
-        @Query("appid") key: String= API_KEY
     ): WeatherResponce
 
     suspend fun getWeather(
