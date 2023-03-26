@@ -2,7 +2,6 @@ package com.example.androidsemester4.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import coil.load
@@ -31,8 +30,15 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
                     showFeelsLike(it.main.feelsLike)
                     showMaxMinTemp(it.main.tempMax, it.main.tempMin)
                     showName(query)
+                    showDesription(it.weather[0].description)
                     it.weather.firstOrNull()?.also {
                         showWeatherIcon(it.icon)
+                    }
+                    showHumidity(it.main.humidity)
+                    showSunset(it.sys.sunset)
+                    showSunrise(it.sys.sunrise)
+                    binding?.tvWind?.run {
+                        text="Ветер: ${getWindInfo(it.wind.deg)}, ${it.wind.speed} м/с"
                     }
                 }
             }   catch (error:Throwable){
@@ -49,21 +55,21 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
 
     private fun showTemp(temp:Double){
         binding?.tvTemp?.run {
-            text="${temp.roundToInt()} C"
+            text="${temp.roundToInt()}°"
             //isVisible=true
         }
     }
 
     private fun showFeelsLike(feelsLike: Double){
         binding?.tvFeelsLike?.run {
-            text="Ощущается как ${feelsLike.roundToInt()} C"
+            text="Ощущается как ${feelsLike.roundToInt()}°"
             //isVisible=true
         }
     }
 
     private fun showMaxMinTemp(tempMax:Double, tempMin: Double){
         binding?.tvTempMaxMin?.run {
-            text="${tempMax.roundToInt()} C/${tempMin.roundToInt()} C"
+            text="${tempMax.roundToInt()}°/${tempMin.roundToInt()}°"
             //isVisible=true
         }
     }
@@ -78,6 +84,49 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
         binding?.tvName?.run {
             text=name
             //isVisible=true
+        }
+    }
+
+    private fun showDesription(description: String){
+        binding?.tvDescription?.run {
+            text=description
+            //isVisible=true
+        }
+    }
+
+    private fun showHumidity(humidity: Int){
+        binding?.tvHumidity?.run {
+            text="Влажность: $humidity%"
+            //isVisible=true
+        }
+    }
+
+    private fun showSunrise(sunrise: Int){
+        binding?.tvSunrise?.run {
+            text="Восход: $sunrise"
+            //isVisible=true
+        }
+    }
+
+    private fun showSunset(sunset: Int){
+        binding?.tvSunset?.run {
+            text="Закат: $sunset"
+            //isVisible=true
+        }
+    }
+
+    private fun getWindInfo(deg: Int): String{
+        return when (deg) {
+            in 0..10 -> "C"
+            in 350..360 -> "C"
+            in 260..280 -> "З"
+            in 170..190 -> "Ю"
+            in 80..100 -> "В"
+            in 281..349 -> "СЗ"
+            in 11..79 -> "CВ"
+            in 190..259 -> "ЮЗ"
+            in 101..169 -> "ЮВ"
+            else -> "ex"
         }
     }
 

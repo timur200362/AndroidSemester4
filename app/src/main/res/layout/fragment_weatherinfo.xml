@@ -2,8 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/tv_temp"
@@ -22,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="60dp"
-        android:layout_marginStart="20dp"/>
+        android:layout_marginStart="15dp"/>
 
     <TextView
         android:id="@+id/tv_feelsLike"
@@ -55,9 +54,10 @@
         app:layout_constraintStart_toStartOf="@+id/iv_icon" />
 
     <TextView
+        android:id="@+id/tv_moreInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Дополнительная информация"
+        android:text="Дополнительная информация:"
         android:textColor="#FF000000"
         android:textSize="20sp"
         android:layout_marginBottom="200dp"
@@ -65,4 +65,61 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF000000"
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_tempMaxMin"
+        app:layout_constraintEnd_toEndOf="@+id/tv_tempMaxMin"
+        app:layout_constraintStart_toStartOf="@+id/tv_tempMaxMin"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF000000"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_moreInfo"
+        app:layout_constraintStart_toStartOf="@+id/tv_moreInfo"
+        app:layout_constraintTop_toBottomOf="@+id/tv_moreInfo" />
+
+    <TextView
+        android:id="@+id/tv_sunrise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF000000"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_humidity"
+        app:layout_constraintStart_toStartOf="@+id/tv_humidity"
+        app:layout_constraintTop_toBottomOf="@+id/tv_humidity" />
+
+    <TextView
+        android:id="@+id/tv_sunset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF000000"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_humidity"
+        app:layout_constraintStart_toStartOf="@+id/tv_humidity"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sunrise" />
+
+    <TextView
+        android:id="@+id/tv_wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF000000"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_moreInfo"
+        app:layout_constraintStart_toStartOf="@+id/tv_moreInfo"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sunset" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

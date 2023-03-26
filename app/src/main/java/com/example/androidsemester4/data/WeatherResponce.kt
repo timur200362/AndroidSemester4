@@ -26,7 +26,17 @@ data class WeatherResponce(
     @SerializedName("weather")
     val weather: List<Weather>,
     @SerializedName("wind")
-    val wind: Wind
+    val wind: Wind,
+)
+data class CityResponse(
+    @SerializedName("cod")
+    val cod: String,
+    @SerializedName("count")
+    val count: Int,
+    @SerializedName("list")
+    val list: List<WeatherResponce>,
+    @SerializedName("message")
+    val message: String
 )
 data class Wind(
     @SerializedName("deg")
