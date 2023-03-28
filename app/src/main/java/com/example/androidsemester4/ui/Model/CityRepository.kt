@@ -2,15 +2,15 @@ package com.example.androidsemester4.ui.Model
 
 object CityRepository {
     val games= arrayListOf(
-        City(id="0","KAZAN1",1),
-        City(id="1","KAZAN2",2),
-        City(id="2","KAZAN3",3),
-        City(id="3","KAZAN4",4),
-        City(id="4","KAZAN5",5),
-        City(id="5","KAZAN6",6),
-        City(id="6","KAZAN7",7),
-        City(id="7","KAZAN8",8),
-        City(id="8","KAZAN9",9),
-        City(id="9","KAZAN10",10),
+        City(id="0","Kazan"),
+        City(id="1","Moscow"),
+        City(id="2","New York"),
+        City(id="3","Berlin"),
+        City(id="4","PARIS"),
+        City(id="5","Barcelona"),
+        City(id="6","Tokyo"),
+        City(id="7","Beijing"),
+        City(id="8","Rome"),
+        City(id="9","Budapest"),
     )
 }
