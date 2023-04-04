@@ -11,12 +11,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
 import com.example.androidsemester4.hideKeyboard
 import com.example.androidsemester4.ui.Model.CityRepository
 import com.google.android.gms.location.*
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
@@ -32,8 +34,16 @@ class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
                 Timber.tag("").i(p0.lastLocation?.toString())
-                binding?.run {
-                    etCity.setText(p0.lastLocation?.latitude?.toString() +" "+ p0.lastLocation?.longitude?.toString())
+                viewLifecycleOwner.lifecycleScope.launch{
+                    p0.lastLocation?.run{
+                        val listCities=CityRepository.getNearCity( latitude, longitude)
+                        adapter=CityAdapter(
+                            listCities,
+                            glide = Glide.with(this@SearchWeatherFragment)){
+                            loadWeather(it.name)
+                        }
+                        binding?.cityList?.adapter=adapter
+                    }
                 }
             }
         }
@@ -62,12 +72,6 @@ class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
                 }
                 true
             }
-            adapter=CityAdapter(
-                CityRepository.games,
-                glide = Glide.with(this@SearchWeatherFragment)){
-                loadWeather(it.name)
-            }
-            cityList.adapter=adapter
         }
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),

@@ -14,10 +14,11 @@ interface WeatherApi {
         @Query("units") units:String="metric",
     ): WeatherResponce
 
-    @GET("weather")
-    suspend fun getWeather(
+    @GET("find")
+    suspend fun getCities(
         @Query("lat") lat: Double,
         @Query("lon") long: Double,
         @Query("cnt") count: Int
     ):CityResponse
+
 }

@@ -38,5 +38,7 @@ object Container {
             .build()
     }
 
-    val weatherApi= retrofit.create(WeatherApi::class.java)
+    val weatherApi by lazy {
+        retrofit.create(WeatherApi::class.java)
+    }
 }
