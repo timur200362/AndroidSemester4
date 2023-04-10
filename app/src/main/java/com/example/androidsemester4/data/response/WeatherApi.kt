@@ -1,6 +1,5 @@
 package com.example.androidsemester4.data.response
 
-import com.example.androidsemester4.API_KEY
 import com.example.androidsemester4.data.CityResponse
 import com.example.androidsemester4.data.WeatherResponce
 import retrofit2.http.GET

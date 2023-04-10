@@ -2,7 +2,6 @@ package com.example.androidsemester4.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.view.LayoutInflater
@@ -10,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -32,17 +32,19 @@ class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
+                showLoading(true)
                 super.onLocationResult(p0)
                 Timber.tag("").i(p0.lastLocation?.toString())
                 viewLifecycleOwner.lifecycleScope.launch{
                     p0.lastLocation?.run{
-                        val listCities=CityRepository.getNearCity( latitude, longitude)
+                        val listCities=CityRepository.getNearCity(latitude, longitude)
                         adapter=CityAdapter(
                             listCities,
                             glide = Glide.with(this@SearchWeatherFragment)){
                             loadWeather(it.name)
                         }
                         binding?.cityList?.adapter=adapter
+                        showLoading(false)
                     }
                 }
             }
@@ -103,5 +105,9 @@ class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.container,WeatherInfoFragment.getInstance(bundle),WeatherInfoFragment.WeatherInfoFragment_TAG)
             .commit()
+    }
+
+    private fun showLoading(isShow: Boolean) {
+        binding?.progress?.isVisible = isShow
     }
 }
