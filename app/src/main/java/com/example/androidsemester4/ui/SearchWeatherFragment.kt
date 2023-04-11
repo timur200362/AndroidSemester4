@@ -11,40 +11,44 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
 import com.example.androidsemester4.hideKeyboard
-import com.example.androidsemester4.ui.Model.CityRepository
 import com.google.android.gms.location.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+
 class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
+    private lateinit var viewModel: SearchWeatherViewModel
     private lateinit var locationCallback: LocationCallback
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var binding: FragmentSearchweatherBinding?=null
-    private var adapter:CityAdapter?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[SearchWeatherViewModel::class.java]
+        viewModel.isLoading.observe(this){
+            showLoading(it)
+        }
+        viewModel.cities.observe(this){
+            binding?.cityList?.adapter=CityAdapter(
+                it,
+                glide = Glide.with(this@SearchWeatherFragment)){
+                loadWeather(it.name)
+            }
+        }
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
-                showLoading(true)
                 super.onLocationResult(p0)
                 Timber.tag("").i(p0.lastLocation?.toString())
                 viewLifecycleOwner.lifecycleScope.launch{
                     p0.lastLocation?.run{
-                        val listCities=CityRepository.getNearCity(latitude, longitude)
-                        adapter=CityAdapter(
-                            listCities,
-                            glide = Glide.with(this@SearchWeatherFragment)){
-                            loadWeather(it.name)
-                        }
-                        binding?.cityList?.adapter=adapter
-                        showLoading(false)
+                        viewModel.getCities(latitude, longitude)
                     }
                 }
             }

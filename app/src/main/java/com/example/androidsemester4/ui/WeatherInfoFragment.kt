@@ -3,19 +3,36 @@ package com.example.androidsemester4.ui
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import coil.load
-import com.example.androidsemester4.Container
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentWeatherinfoBinding
 import com.example.androidsemester4.showSnackbar
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
     private var binding: FragmentWeatherinfoBinding?=null
+    private lateinit var viewModel: WeatherInfoViewModel
 
-    private val api = Container.weatherApi
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[WeatherInfoViewModel::class.java]
+        viewModel.resultApi.observe(this){
+            showTemp(it.main.temp)
+            showFeelsLike(it.main.feelsLike)
+            showMaxMinTemp(it.main.tempMax, it.main.tempMin)
+            showDesription(it.weather[0].description)
+            it.weather.firstOrNull()?.also {
+                showWeatherIcon(it.icon)
+            }
+            showHumidity(it.main.humidity)
+            showSunset(it.sys.sunset)
+            showSunrise(it.sys.sunrise)
+            binding?.tvWind?.run {
+                text="Ветер: ${getWindInfo(it.wind.deg)}, ${it.wind.speed} м/с"
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,28 +40,8 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
         arguments?.getString("cityName")?.let { loadWeather(it) }
     }
     private fun loadWeather(query:String){
-        lifecycleScope.launch{
-            try{
-                api.getWeather(query).also {
-                    showTemp(it.main.temp)
-                    showFeelsLike(it.main.feelsLike)
-                    showMaxMinTemp(it.main.tempMax, it.main.tempMin)
-                    showName(query)
-                    showDesription(it.weather[0].description)
-                    it.weather.firstOrNull()?.also {
-                        showWeatherIcon(it.icon)
-                    }
-                    showHumidity(it.main.humidity)
-                    showSunset(it.sys.sunset)
-                    showSunrise(it.sys.sunrise)
-                    binding?.tvWind?.run {
-                        text="Ветер: ${getWindInfo(it.wind.deg)}, ${it.wind.speed} м/с"
-                    }
-                }
-            }   catch (error:Throwable){
-                showError(error)
-            }
-        }
+        viewModel.getApi(query)
+        showName(query)
     }
 
 
@@ -56,21 +53,18 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
     private fun showTemp(temp:Double){
         binding?.tvTemp?.run {
             text="${temp.roundToInt()}°"
-            //isVisible=true
         }
     }
 
     private fun showFeelsLike(feelsLike: Double){
         binding?.tvFeelsLike?.run {
             text="Ощущается как ${feelsLike.roundToInt()}°"
-            //isVisible=true
         }
     }
 
     private fun showMaxMinTemp(tempMax:Double, tempMin: Double){
         binding?.tvTempMaxMin?.run {
             text="${tempMax.roundToInt()}°/${tempMin.roundToInt()}°"
-            //isVisible=true
         }
     }
 
@@ -83,35 +77,30 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
     private fun showName(name: String){
         binding?.tvName?.run {
             text=name
-            //isVisible=true
         }
     }
 
     private fun showDesription(description: String){
         binding?.tvDescription?.run {
             text=description
-            //isVisible=true
         }
     }
 
     private fun showHumidity(humidity: Int){
         binding?.tvHumidity?.run {
             text="Влажность: $humidity%"
-            //isVisible=true
         }
     }
 
     private fun showSunrise(sunrise: Int){
         binding?.tvSunrise?.run {
             text="Восход: $sunrise"
-            //isVisible=true
         }
     }
 
     private fun showSunset(sunset: Int){
         binding?.tvSunset?.run {
             text="Закат: $sunset"
-            //isVisible=true
         }
     }
 
@@ -138,4 +127,5 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
             return weatherInfoFragment
         }
     }
+    
 }
