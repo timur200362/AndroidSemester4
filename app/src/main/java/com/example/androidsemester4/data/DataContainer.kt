@@ -1,5 +1,6 @@
-package com.example.androidsemester4
+package com.example.androidsemester4.data
 
+import com.example.androidsemester4.BuildConfig
 import com.example.androidsemester4.data.interceptor.ApiKeyInterceptor
 import com.example.androidsemester4.data.response.WeatherApi
 import okhttp3.OkHttpClient
@@ -11,8 +12,7 @@ import java.util.concurrent.TimeUnit
 private const val BASE_URL="https://api.openweathermap.org/data/2.5/"
 const val API_KEY="1c7f89ac71daa4aa8bb081c93922ec64"
 
-object Container {
-
+object DataContainer {
     private val loggingInterceptor =
         HttpLoggingInterceptor().apply {
             level=if (BuildConfig.DEBUG) {

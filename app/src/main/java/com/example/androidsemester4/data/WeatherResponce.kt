@@ -3,8 +3,6 @@ package com.example.androidsemester4.data
 import com.google.gson.annotations.SerializedName
 
 data class WeatherResponce(
-//    @SerializedName("base")
-//    val base: String,
     @SerializedName("clouds")
     val clouds: Clouds,
     @SerializedName("cod")
@@ -19,8 +17,6 @@ data class WeatherResponce(
     val name: String,
     @SerializedName("sys")
     val sys: Sys,
-//    @SerializedName("timezone")
-//    val timezone: Int,
     @SerializedName("visibility")
     val visibility: Int,
     @SerializedName("weather")
@@ -29,12 +25,8 @@ data class WeatherResponce(
     val wind: Wind,
 )
 data class CityResponse(
-//    @SerializedName("cod")
-//    val cod: String,
     @SerializedName("list")
     val list: List<WeatherResponce>,
-//    @SerializedName("icon")
-//    val icon: String,
 )
 data class Wind(
     @SerializedName("deg")
@@ -55,16 +47,12 @@ data class Weather(
     val main: String
 )
 data class Sys(
-//    @SerializedName("country")
-//    val country: String,
     @SerializedName("id")
     val id: Int,
     @SerializedName("sunrise")
     val sunrise: Int,
     @SerializedName("sunset")
     val sunset: Int,
-//    @SerializedName("type")
-//    val type: Int
 )
 data class Main(
     @SerializedName("feels_like")
@@ -73,10 +61,6 @@ data class Main(
     val grndLevel: Int,
     @SerializedName("humidity")
     val humidity: Int,
-//    @SerializedName("pressure")
-//    val pressure: Int,
-//    @SerializedName("sea_level")
-//    val seaLevel: Int,
     @SerializedName("temp")
     val temp: Double,
     @SerializedName("temp_max")

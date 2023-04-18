@@ -13,9 +13,9 @@ class CityItem (
         with(binding){
             tvCityName.text=cityList.name
 
-            glide
-                //.load(cityList.icon)
-                //.into(ivCityIcon)
+//            glide
+//                .load(cityList.icon)
+//                .into(ivCityIcon)
 
             root.setOnClickListener{
                 action(cityList)

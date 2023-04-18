@@ -4,18 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.androidsemester4.Container
 import com.example.androidsemester4.data.WeatherResponce
+import com.example.androidsemester4.domain.LoadWeatherUseCase
+import com.example.androidsemester4.domain.Weather
 import kotlinx.coroutines.launch
 
 class WeatherInfoViewModel:ViewModel() {
-    private val _resultApi = MutableLiveData<WeatherResponce>()
-    val resultApi: LiveData<WeatherResponce>
+    private val _resultApi = MutableLiveData<Weather>()
+    val resultApi: LiveData<Weather>
         get() = _resultApi
 
     fun getApi(query:String){
         viewModelScope.launch {
-            _resultApi.value=Container.weatherApi.getWeather(query)
+            _resultApi.value=LoadWeatherUseCase().execute(query)
         }
     }
 }

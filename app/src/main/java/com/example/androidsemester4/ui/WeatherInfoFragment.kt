@@ -18,18 +18,16 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[WeatherInfoViewModel::class.java]
         viewModel.resultApi.observe(this){
-            showTemp(it.main.temp)
-            showFeelsLike(it.main.feelsLike)
-            showMaxMinTemp(it.main.tempMax, it.main.tempMin)
-            showDesription(it.weather[0].description)
-            it.weather.firstOrNull()?.also {
-                showWeatherIcon(it.icon)
-            }
-            showHumidity(it.main.humidity)
-            showSunset(it.sys.sunset)
-            showSunrise(it.sys.sunrise)
+            showTemp(it.temp)
+            showFeelsLike(it.feelsLike)
+            showMaxMinTemp(it.tempMax, it.tempMin)
+            showDesription(it.description)
+            showWeatherIcon(it.icon)
+            showHumidity(it.humidity)
+            showSunset(it.sunset)
+            showSunrise(it.sunrise)
             binding?.tvWind?.run {
-                text="Ветер: ${getWindInfo(it.wind.deg)}, ${it.wind.speed} м/с"
+                text="Ветер: ${(it.wind.direction)}, ${it.wind.speed} м/с"
             }
         }
     }
@@ -44,11 +42,6 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
         showName(query)
     }
 
-
-    private fun showError(error: Throwable){
-        activity?.findViewById<View>(android.R.id.content)
-            ?.showSnackbar(error.message ?: "Error")
-    }
 
     private fun showTemp(temp:Double){
         binding?.tvTemp?.run {
@@ -101,21 +94,6 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
     private fun showSunset(sunset: Int){
         binding?.tvSunset?.run {
             text="Закат: $sunset"
-        }
-    }
-
-    private fun getWindInfo(deg: Int): String{
-        return when (deg) {
-            in 0..10 -> "C"
-            in 350..360 -> "C"
-            in 260..280 -> "З"
-            in 170..190 -> "Ю"
-            in 80..100 -> "В"
-            in 281..349 -> "СЗ"
-            in 11..79 -> "CВ"
-            in 190..259 -> "ЮЗ"
-            in 101..169 -> "ЮВ"
-            else -> "ex"
         }
     }
 

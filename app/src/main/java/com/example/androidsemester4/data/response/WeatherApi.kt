@@ -19,5 +19,4 @@ interface WeatherApi {
         @Query("lon") long: Double,
         @Query("cnt") count: Int
     ):CityResponse
-
 }

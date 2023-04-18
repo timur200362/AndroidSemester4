@@ -1,6 +1,6 @@
 package com.example.androidsemester4.data.interceptor
 
-import com.example.androidsemester4.API_KEY
+import com.example.androidsemester4.data.API_KEY
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -11,7 +11,7 @@ class ApiKeyInterceptor:Interceptor {
             .addQueryParameter("appid", API_KEY)
             .build()
 
-        return  chain.proceed(
+        return chain.proceed(
             original.newBuilder()
                 .url(newUrl)
                 .build()

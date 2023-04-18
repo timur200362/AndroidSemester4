@@ -45,7 +45,6 @@ class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
-                Timber.tag("").i(p0.lastLocation?.toString())
                 viewLifecycleOwner.lifecycleScope.launch{
                     p0.lastLocation?.run{
                         viewModel.getCities(latitude, longitude)
@@ -108,6 +107,7 @@ class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
         bundle.putString("cityName",query)
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.container,WeatherInfoFragment.getInstance(bundle),WeatherInfoFragment.WeatherInfoFragment_TAG)
+            .addToBackStack(null)
             .commit()
     }
 
