@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.androidsemester4.data.WeatherResponce
 import com.example.androidsemester4.domain.LoadWeatherUseCase
 import com.example.androidsemester4.domain.Weather
 import kotlinx.coroutines.launch

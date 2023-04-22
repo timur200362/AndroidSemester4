@@ -16,11 +16,9 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
-import com.example.androidsemester4.hideKeyboard
+import com.example.androidsemester4.utils.hideKeyboard
 import com.google.android.gms.location.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
-
 
 class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
     private lateinit var viewModel: SearchWeatherViewModel
@@ -110,6 +108,7 @@ class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
             .addToBackStack(null)
             .commit()
     }
+
 
     private fun showLoading(isShow: Boolean) {
         binding?.progress?.isVisible = isShow

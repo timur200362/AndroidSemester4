@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.ActivityMainBinding
-import java.io.Closeable
 
 class MainActivity : AppCompatActivity(){
     private var binding: ActivityMainBinding? = null

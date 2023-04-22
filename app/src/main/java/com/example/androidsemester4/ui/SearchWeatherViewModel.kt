@@ -5,11 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidsemester4.ui.Model.City
-import com.example.androidsemester4.data.CityRepository
 import com.example.androidsemester4.domain.GetNearCitiesUseCase
 import kotlinx.coroutines.launch
 
-class SearchWeatherViewModel():ViewModel() {
+class SearchWeatherViewModel:ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading:LiveData<Boolean>
