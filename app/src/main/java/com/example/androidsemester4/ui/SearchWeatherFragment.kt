@@ -1,55 +1,26 @@
 package com.example.androidsemester4.ui
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
 import com.example.androidsemester4.utils.hideKeyboard
-import com.google.android.gms.location.*
-import kotlinx.coroutines.launch
 
 class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
     private lateinit var viewModel: SearchWeatherViewModel
-    private lateinit var locationCallback: LocationCallback
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var binding: FragmentSearchweatherBinding?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[SearchWeatherViewModel::class.java]
-        viewModel.isLoading.observe(this){
-            showLoading(it)
-        }
-        viewModel.cities.observe(this){
-            binding?.cityList?.adapter=CityAdapter(
-                it,
-                glide = Glide.with(this@SearchWeatherFragment)){
-                loadWeather(it.name)
-            }
-        }
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(p0: LocationResult) {
-                super.onLocationResult(p0)
-                viewLifecycleOwner.lifecycleScope.launch{
-                    p0.lastLocation?.run{
-                        viewModel.getCities(latitude, longitude)
-                    }
-                }
-            }
-        }
+        viewModel = ViewModelProvider(this, SearchWeatherViewModelFactory(requireActivity().application))[SearchWeatherViewModel::class.java]
+        viewModel.getLocation()
     }
 
     override fun onCreateView(
@@ -65,6 +36,16 @@ class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding= FragmentSearchweatherBinding.bind(view)
+        viewModel.isLoading.observe(viewLifecycleOwner){
+            showLoading(it)
+        }
+        viewModel.cities.observe(viewLifecycleOwner){
+            binding?.cityList?.adapter=CityAdapter(
+                it,
+                glide = Glide.with(this@SearchWeatherFragment)){
+                loadWeather(it.name)
+            }
+        }
         binding?.run {
             btnLoad.setOnClickListener{
                 loadWeather(etCity.text.toString())
@@ -75,20 +56,6 @@ class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
                 }
                 true
             }
-        }
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            fusedLocationClient.requestLocationUpdates(
-                LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
-                    .setWaitForAccurateLocation(false)
-                    .setMinUpdateIntervalMillis(500)
-                    .setMaxUpdateDelayMillis(1000)
-                    .build(),
-                locationCallback,
-                Looper.getMainLooper())
         }
     }
 
