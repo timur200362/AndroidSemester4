@@ -9,17 +9,22 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.androidsemester4.App
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
 import com.example.androidsemester4.utils.hideKeyboard
+import javax.inject.Inject
 
 class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
     private lateinit var viewModel: SearchWeatherViewModel
     private var binding: FragmentSearchweatherBinding?=null
+    @Inject
+    lateinit var searchWeatherViewModelFactory: SearchWeatherViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, SearchWeatherViewModelFactory(requireActivity().application))[SearchWeatherViewModel::class.java]
+        (requireActivity().application as App).appComponent.inject(this)//dagger2
+        viewModel = ViewModelProvider(this,searchWeatherViewModelFactory)[SearchWeatherViewModel::class.java]
         viewModel.getLocation()
     }
 
