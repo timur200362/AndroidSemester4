@@ -9,14 +9,14 @@ import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentWeatherinfoBinding
 import kotlin.math.roundToInt
 
-class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
-    private var binding: FragmentWeatherinfoBinding?=null
+class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
+    private var binding: FragmentWeatherinfoBinding? = null
     private lateinit var viewModel: WeatherInfoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[WeatherInfoViewModel::class.java]
-        viewModel.resultApi.observe(this){
+        viewModel.resultApi.observe(this) {
             showTemp(it.temp)
             showFeelsLike(it.feelsLike)
             showMaxMinTemp(it.tempMax, it.tempMin)
@@ -26,73 +26,74 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
             showSunset(it.sunset)
             showSunrise(it.sunrise)
             binding?.tvWind?.run {
-                text="Ветер: ${(it.wind.direction)}, ${it.wind.speed} м/с"
+                text = "Ветер: ${(it.wind.direction)}, ${it.wind.speed} м/с"
             }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding= FragmentWeatherinfoBinding.bind(view)
+        binding = FragmentWeatherinfoBinding.bind(view)
         arguments?.getString("cityName")?.let { loadWeather(it) }
     }
-    private fun loadWeather(query:String){
+
+    private fun loadWeather(query: String) {
         viewModel.getApi(query)
         showName(query)
     }
 
 
-    private fun showTemp(temp:Double){
+    private fun showTemp(temp: Double) {
         binding?.tvTemp?.run {
-            text="${temp.roundToInt()}°"
+            text = "${temp.roundToInt()}°"
         }
     }
 
-    private fun showFeelsLike(feelsLike: Double){
+    private fun showFeelsLike(feelsLike: Double) {
         binding?.tvFeelsLike?.run {
-            text="Ощущается как ${feelsLike.roundToInt()}°"
+            text = "Ощущается как ${feelsLike.roundToInt()}°"
         }
     }
 
-    private fun showMaxMinTemp(tempMax:Double, tempMin: Double){
+    private fun showMaxMinTemp(tempMax: Double, tempMin: Double) {
         binding?.tvTempMaxMin?.run {
-            text="${tempMax.roundToInt()}°/${tempMin.roundToInt()}°"
+            text = "${tempMax.roundToInt()}°/${tempMin.roundToInt()}°"
         }
     }
 
-    private fun showWeatherIcon(id:String){
-        binding?.ivIcon?.load("https://openweathermap.org/img/w/$id.png"){
+    private fun showWeatherIcon(id: String) {
+        binding?.ivIcon?.load("https://openweathermap.org/img/w/$id.png") {
             crossfade(true)
         }
     }
 
-    private fun showName(name: String){
+    private fun showName(name: String) {
         binding?.tvName?.run {
-            text=name
+            text = name
         }
     }
 
-    private fun showDesription(description: String){
+    private fun showDesription(description: String) {
         binding?.tvDescription?.run {
-            text=description
+            text = description
         }
     }
 
-    private fun showHumidity(humidity: Int){
+    private fun showHumidity(humidity: Int) {
         binding?.tvHumidity?.run {
-            text="Влажность: $humidity%"
+            text = "Влажность: $humidity%"
         }
     }
 
-    private fun showSunrise(sunrise: Int){
+    private fun showSunrise(sunrise: Int) {
         binding?.tvSunrise?.run {
-            text="Восход: $sunrise"
+            text = "Восход: $sunrise"
         }
     }
 
-    private fun showSunset(sunset: Int){
+    private fun showSunset(sunset: Int) {
         binding?.tvSunset?.run {
-            text="Закат: $sunset"
+            text = "Закат: $sunset"
         }
     }
 
@@ -104,5 +105,5 @@ class WeatherInfoFragment:Fragment(R.layout.fragment_weatherinfo) {
             return weatherInfoFragment
         }
     }
-    
+
 }
