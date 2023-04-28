@@ -5,16 +5,21 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
+import com.example.androidsemester4.App
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentWeatherinfoBinding
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
 class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
     private var binding: FragmentWeatherinfoBinding? = null
-    private lateinit var viewModel: WeatherInfoViewModel
+
+    @Inject
+    lateinit var viewModel: WeatherInfoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        App().appComponent.inject(this)
         viewModel = ViewModelProvider(this)[WeatherInfoViewModel::class.java]
         viewModel.resultApi.observe(this) {
             showTemp(it.temp)
