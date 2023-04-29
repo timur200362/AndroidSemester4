@@ -26,17 +26,17 @@ class ApplicationModule(val application: Application) {
         SearchWeatherViewModel(application)
 
     @Provides
-    fun provideGetNearCitiesUseCase():GetNearCitiesUseCase=GetNearCitiesUseCase()
+    fun provideGetNearCitiesUseCase(): GetNearCitiesUseCase = GetNearCitiesUseCase()
 
     @Provides
-    fun provideCityRepository():CityRepository=CityRepository
+    fun provideCityRepository(): CityRepository = CityRepository
 
     @Provides
-    fun provideWeatherInfoViewModel():WeatherInfoViewModel=WeatherInfoViewModel()
+    fun provideWeatherInfoViewModel(): WeatherInfoViewModel = WeatherInfoViewModel()
 
     @Provides
-    fun provideLoadWeatherUseCase():LoadWeatherUseCase= LoadWeatherUseCase()
+    fun provideLoadWeatherUseCase(): LoadWeatherUseCase = LoadWeatherUseCase()
 
     @Provides
-    fun provideLoadCityRepository():LoadCityRepository=LoadCityRepository()
+    fun provideLoadCityRepository(): LoadCityRepository = LoadCityRepository()
 }

@@ -13,6 +13,7 @@ interface ApplicationComponent {
     fun inject(factory: SearchWeatherViewModelFactory)
     fun inject(viewModel: SearchWeatherViewModel)
     fun inject(useCase: GetNearCitiesUseCase)
+
     //WeatherInfoFragment
     fun inject(fragment: WeatherInfoFragment)
     fun inject(viewModel: WeatherInfoViewModel)
