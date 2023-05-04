@@ -1,8 +1,9 @@
 package com.example.androidsemester4.data.interceptor
 
-import com.example.androidsemester4.data.API_KEY
 import okhttp3.Interceptor
 import okhttp3.Response
+
+const val API_KEY = "1c7f89ac71daa4aa8bb081c93922ec64"
 
 class ApiKeyInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {

@@ -1,15 +1,10 @@
 package com.example.androidsemester4.domain
 
-import com.example.androidsemester4.App
 import com.example.androidsemester4.data.LoadCityRepository
-import javax.inject.Inject
 
-class LoadWeatherUseCase {
-    @Inject
-    lateinit var loadCityRepository: LoadCityRepository
+class LoadWeatherUseCase(val loadCityRepository: LoadCityRepository) {
 
     suspend fun execute(cityName: String): Weather {
-        App().appComponent.inject(this)
         loadCityRepository.getWeather(cityName).run {
             return Weather(
                 wind = Wind(getWindInfo(wind.deg), wind.speed),

@@ -9,16 +9,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.androidsemester4.App
 import com.example.androidsemester4.domain.GetNearCitiesUseCase
 import com.example.androidsemester4.ui.Model.City
 import com.google.android.gms.location.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class SearchWeatherViewModel(val application: Application) : ViewModel() {
-    @Inject
-    lateinit var getNearCitiesUseCase: GetNearCitiesUseCase
+class SearchWeatherViewModel(val application: Application,val getNearCitiesUseCase:GetNearCitiesUseCase) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean>
@@ -31,7 +27,6 @@ class SearchWeatherViewModel(val application: Application) : ViewModel() {
     fun getCities(latitude: Double, longitude: Double) {
         viewModelScope.launch {
             _isLoading.value = true
-            App().appComponent.inject(this@SearchWeatherViewModel)//нужен ли тут application для useCase?
             val listCities = getNearCitiesUseCase.execute(latitude, longitude)
             _cities.value = listCities
             _isLoading.value = false

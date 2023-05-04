@@ -16,6 +16,7 @@ interface ApplicationComponent {
 
     //WeatherInfoFragment
     fun inject(fragment: WeatherInfoFragment)
+    fun inject(factory: WeatherInfoViewModelFactory)
     fun inject(viewModel: WeatherInfoViewModel)
     fun inject(useCase: LoadWeatherUseCase)
 }

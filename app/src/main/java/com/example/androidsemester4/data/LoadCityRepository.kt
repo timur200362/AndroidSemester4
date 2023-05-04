@@ -1,8 +1,10 @@
 package com.example.androidsemester4.data
 
+import com.example.androidsemester4.data.response.WeatherApi
 
-class LoadCityRepository {
+
+class LoadCityRepository(private val weatherApi: WeatherApi) {
     suspend fun getWeather(cityName: String): WeatherResponce {
-        return DataContainer.weatherApi.getWeather(cityName)
+        return weatherApi.getWeather(cityName)
     }
 }

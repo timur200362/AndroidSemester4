@@ -3,40 +3,48 @@ package com.example.androidsemester4.di
 import android.app.Application
 import com.example.androidsemester4.data.CityRepository
 import com.example.androidsemester4.data.LoadCityRepository
+import com.example.androidsemester4.data.response.WeatherApi
 import com.example.androidsemester4.domain.GetNearCitiesUseCase
 import com.example.androidsemester4.domain.LoadWeatherUseCase
 import com.example.androidsemester4.ui.SearchWeatherViewModel
 import com.example.androidsemester4.ui.SearchWeatherViewModelFactory
 import com.example.androidsemester4.ui.WeatherInfoViewModel
+import com.example.androidsemester4.ui.WeatherInfoViewModelFactory
 import dagger.Module
 import dagger.Provides
 
-@Module
+@Module(includes=[NetworkModule::class] )
 class ApplicationModule(val application: Application) {
     @Provides
     fun provideFactory(
-        application: Application
-    ): SearchWeatherViewModelFactory = SearchWeatherViewModelFactory(application)
+        application: Application,
+        getNearCitiesUseCase: GetNearCitiesUseCase
+    ): SearchWeatherViewModelFactory = SearchWeatherViewModelFactory(application,getNearCitiesUseCase)
 
     @Provides
     fun provideApplication(): Application = application
 
     @Provides
-    fun provideViewModel(application: Application): SearchWeatherViewModel =
-        SearchWeatherViewModel(application)
+    fun provideViewModel(application: Application, getNearCitiesUseCase: GetNearCitiesUseCase): SearchWeatherViewModel =
+        SearchWeatherViewModel(application, getNearCitiesUseCase)
 
     @Provides
-    fun provideGetNearCitiesUseCase(): GetNearCitiesUseCase = GetNearCitiesUseCase()
+    fun provideGetNearCitiesUseCase(cityRepository: CityRepository): GetNearCitiesUseCase = GetNearCitiesUseCase(cityRepository)
 
     @Provides
-    fun provideCityRepository(): CityRepository = CityRepository
+    fun provideCityRepository(weatherApi: WeatherApi): CityRepository = CityRepository(weatherApi)
 
     @Provides
-    fun provideWeatherInfoViewModel(): WeatherInfoViewModel = WeatherInfoViewModel()
+    fun provideWeatherInfoViewModelFactory(
+        loadWeatherUseCase: LoadWeatherUseCase
+    ):WeatherInfoViewModelFactory=WeatherInfoViewModelFactory(loadWeatherUseCase)
 
     @Provides
-    fun provideLoadWeatherUseCase(): LoadWeatherUseCase = LoadWeatherUseCase()
+    fun provideWeatherInfoViewModel(loadWeatherUseCase: LoadWeatherUseCase): WeatherInfoViewModel = WeatherInfoViewModel(loadWeatherUseCase)
 
     @Provides
-    fun provideLoadCityRepository(): LoadCityRepository = LoadCityRepository()
+    fun provideLoadWeatherUseCase(loadCityRepository: LoadCityRepository): LoadWeatherUseCase = LoadWeatherUseCase(loadCityRepository)
+
+    @Provides
+    fun provideLoadCityRepository(weatherApi: WeatherApi): LoadCityRepository = LoadCityRepository(weatherApi)
 }

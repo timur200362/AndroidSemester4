@@ -13,15 +13,23 @@ import kotlin.math.roundToInt
 
 class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
     private var binding: FragmentWeatherinfoBinding? = null
-
-    @Inject
     lateinit var viewModel: WeatherInfoViewModel
 
+    @Inject
+    lateinit var weatherInfoViewModelFactory: WeatherInfoViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         App().appComponent.inject(this)
-        viewModel = ViewModelProvider(this)[WeatherInfoViewModel::class.java]
-        viewModel.resultApi.observe(this) {
+        super.onCreate(savedInstanceState)
+        (requireActivity().application as App).appComponent.inject(this)
+        viewModel = ViewModelProvider(this, weatherInfoViewModelFactory)[WeatherInfoViewModel::class.java]
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentWeatherinfoBinding.bind(view)
+        arguments?.getString("cityName")?.let { loadWeather(it) }
+        viewModel.resultApi.observe(viewLifecycleOwner) {
             showTemp(it.temp)
             showFeelsLike(it.feelsLike)
             showMaxMinTemp(it.tempMax, it.tempMin)
@@ -34,12 +42,6 @@ class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
                 text = "Ветер: ${(it.wind.direction)}, ${it.wind.speed} м/с"
             }
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding = FragmentWeatherinfoBinding.bind(view)
-        arguments?.getString("cityName")?.let { loadWeather(it) }
     }
 
     private fun loadWeather(query: String) {

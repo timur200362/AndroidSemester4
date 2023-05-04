@@ -23,8 +23,8 @@ class SearchWeatherFragment : Fragment(R.layout.fragment_searchweather) {
     lateinit var searchWeatherViewModelFactory: SearchWeatherViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         (requireActivity().application as App).appComponent.inject(this)//dagger2
+        super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(
             this,
             searchWeatherViewModelFactory
