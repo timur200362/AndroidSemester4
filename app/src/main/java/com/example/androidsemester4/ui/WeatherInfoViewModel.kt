@@ -8,7 +8,7 @@ import com.example.androidsemester4.domain.LoadWeatherUseCase
 import com.example.androidsemester4.domain.Weather
 import kotlinx.coroutines.launch
 
-class WeatherInfoViewModel(val loadWeatherUseCase: LoadWeatherUseCase) : ViewModel() {
+class WeatherInfoViewModel(private val loadWeatherUseCase: LoadWeatherUseCase) : ViewModel() {
 
     private val _resultApi = MutableLiveData<Weather>()
     val resultApi: LiveData<Weather>
