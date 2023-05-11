@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentWeatherinfoBinding
-import com.example.androidsemester4.showSnackbar
+import com.example.androidsemester4.utils.showSnackbar
 import kotlin.math.roundToInt
 
 class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
