@@ -28,6 +28,7 @@ data class WeatherResponce(
     @SerializedName("wind")
     val wind: Wind,
 )
+
 data class CityResponse(
 //    @SerializedName("cod")
 //    val cod: String,
@@ -36,6 +37,7 @@ data class CityResponse(
 //    @SerializedName("icon")
 //    val icon: String,
 )
+
 data class Wind(
     @SerializedName("deg")
     val deg: Int,
@@ -44,6 +46,7 @@ data class Wind(
     @SerializedName("speed")
     val speed: Double
 )
+
 data class Weather(
     @SerializedName("description")
     val description: String,
@@ -54,6 +57,7 @@ data class Weather(
     @SerializedName("main")
     val main: String
 )
+
 data class Sys(
 //    @SerializedName("country")
 //    val country: String,
@@ -66,6 +70,7 @@ data class Sys(
 //    @SerializedName("type")
 //    val type: Int
 )
+
 data class Main(
     @SerializedName("feels_like")
     val feelsLike: Double,
@@ -84,6 +89,7 @@ data class Main(
     @SerializedName("temp_min")
     val tempMin: Double
 )
+
 data class Clouds(
     @SerializedName("all")
     val all: Int

@@ -8,14 +8,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-private const val BASE_URL="https://api.openweathermap.org/data/2.5/"
-const val API_KEY="1c7f89ac71daa4aa8bb081c93922ec64"
+private const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+const val API_KEY = "1c7f89ac71daa4aa8bb081c93922ec64"
 
 object Container {
 
     private val loggingInterceptor =
         HttpLoggingInterceptor().apply {
-            level=if (BuildConfig.DEBUG) {
+            level = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor.Level.BODY
             } else {
                 HttpLoggingInterceptor.Level.NONE
@@ -30,7 +30,7 @@ object Container {
             .build()
     }
 
-    private val retrofit by lazy{
+    private val retrofit by lazy {
         Retrofit.Builder()
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
