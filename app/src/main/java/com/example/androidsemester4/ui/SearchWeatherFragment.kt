@@ -13,13 +13,16 @@ import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
 import com.example.androidsemester4.utils.hideKeyboard
 
-class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
+class SearchWeatherFragment : Fragment(R.layout.fragment_searchweather) {
     private lateinit var viewModel: SearchWeatherViewModel
-    private var binding: FragmentSearchweatherBinding?=null
+    private var binding: FragmentSearchweatherBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, SearchWeatherViewModelFactory(requireActivity().application))[SearchWeatherViewModel::class.java]
+        viewModel = ViewModelProvider(
+            this,
+            SearchWeatherViewModelFactory(requireActivity().application)
+        )[SearchWeatherViewModel::class.java]
         viewModel.getLocation()
     }
 
@@ -27,27 +30,28 @@ class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentSearchweatherBinding.inflate(inflater,container,false).let{
-            binding=it
+        return FragmentSearchweatherBinding.inflate(inflater, container, false).let {
+            binding = it
             it.root
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding= FragmentSearchweatherBinding.bind(view)
-        viewModel.isLoading.observe(viewLifecycleOwner){
+        binding = FragmentSearchweatherBinding.bind(view)
+        viewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
         }
-        viewModel.cities.observe(viewLifecycleOwner){
-            binding?.cityList?.adapter=CityAdapter(
+        viewModel.cities.observe(viewLifecycleOwner) {
+            binding?.cityList?.adapter = CityAdapter(
                 it,
-                glide = Glide.with(this@SearchWeatherFragment)){
+                glide = Glide.with(this@SearchWeatherFragment)
+            ) {
                 loadWeather(it.name)
             }
         }
         binding?.run {
-            btnLoad.setOnClickListener{
+            btnLoad.setOnClickListener {
                 loadWeather(etCity.text.toString())
             }
             etCity.setOnEditorActionListener { _, actionId, _ ->
@@ -67,11 +71,15 @@ class SearchWeatherFragment: Fragment(R.layout.fragment_searchweather) {
         }
     }
 
-    private fun loadWeather(query:String){
-        val bundle=Bundle()
-        bundle.putString("cityName",query)
+    private fun loadWeather(query: String) {
+        val bundle = Bundle()
+        bundle.putString("cityName", query)
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.container,WeatherInfoFragment.getInstance(bundle),WeatherInfoFragment.WeatherInfoFragment_TAG)
+            .replace(
+                R.id.container,
+                WeatherInfoFragment.getInstance(bundle),
+                WeatherInfoFragment.WeatherInfoFragment_TAG
+            )
             .addToBackStack(null)
             .commit()
     }

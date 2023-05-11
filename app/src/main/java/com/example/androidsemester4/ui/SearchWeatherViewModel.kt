@@ -14,32 +14,34 @@ import com.example.androidsemester4.ui.Model.City
 import com.google.android.gms.location.*
 import kotlinx.coroutines.launch
 
-class SearchWeatherViewModel(val application: Application): ViewModel() {
+class SearchWeatherViewModel(val application: Application) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>(false)
-    val isLoading:LiveData<Boolean>
+    val isLoading: LiveData<Boolean>
         get() = _isLoading
 
     private val _cities = MutableLiveData<List<City>>()
-    val cities:LiveData<List<City>>
+    val cities: LiveData<List<City>>
         get() = _cities
 
-    fun getCities(latitude:Double,longitude:Double){
+    fun getCities(latitude: Double, longitude: Double) {
         viewModelScope.launch {
-            _isLoading.value=true
-            val listCities = GetNearCitiesUseCase().execute(latitude,longitude)
-            _cities.value=listCities
-            _isLoading.value=false
+            _isLoading.value = true
+            val listCities = GetNearCitiesUseCase().execute(latitude, longitude)
+            _cities.value = listCities
+            _isLoading.value = false
         }
     }
 
     //с factory
-    fun getLocation(){
-        val fusedLocation=LocationServices.getFusedLocationProviderClient(application.applicationContext)//без liveData, потому что 1 раз инициализируем. Не участвует в отображении данных
+    fun getLocation() {
+        val fusedLocation =
+            LocationServices.getFusedLocationProviderClient(application.applicationContext)
+        //без liveData, потому что 1 раз инициализируем. Не участвует в отображении данных
         val locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
-                p0.lastLocation?.run{
+                p0.lastLocation?.run {
                     getCities(latitude, longitude)
                 }
             }
@@ -61,6 +63,7 @@ class SearchWeatherViewModel(val application: Application): ViewModel() {
                 .setMaxUpdateDelayMillis(1000)
                 .build(),
             locationCallback,
-            Looper.getMainLooper())
+            Looper.getMainLooper()
+        )
     }
 }
