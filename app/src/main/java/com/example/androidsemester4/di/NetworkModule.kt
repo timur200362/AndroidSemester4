@@ -16,20 +16,20 @@ private const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
 @Module
 class NetworkModule {
     @Provides
-    fun provideLoggingInterceptor():HttpLoggingInterceptor=HttpLoggingInterceptor()
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor()
         .apply {
             level = if (BuildConfig.DEBUG) {
-            HttpLoggingInterceptor.Level.BODY
-        } else {
-            HttpLoggingInterceptor.Level.NONE
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
         }
-    }
 
     @Provides
     fun provideHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
         apiKeyInterceptor: ApiKeyInterceptor
-    ):OkHttpClient=OkHttpClient.Builder()
+    ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .addInterceptor(apiKeyInterceptor)
         .connectTimeout(10, TimeUnit.SECONDS)
@@ -38,22 +38,22 @@ class NetworkModule {
     @Provides
     fun provideRetrofit(
         httpClient: OkHttpClient,
-        gsonFactory:GsonConverterFactory
-    ):Retrofit=Retrofit.Builder()
+        gsonFactory: GsonConverterFactory
+    ): Retrofit = Retrofit.Builder()
         .client(httpClient)
         .addConverterFactory(gsonFactory)
         .baseUrl(BASE_URL)
         .build()
 
     @Provides
-    fun provideGsonConverterFactory():GsonConverterFactory=GsonConverterFactory.create()
+    fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
     @Provides
     fun provideWeatherApi(
         retrofit: Retrofit
-    ):WeatherApi=retrofit.create(WeatherApi::class.java)
+    ): WeatherApi = retrofit.create(WeatherApi::class.java)
 
     @Provides
     fun provideApiKeyInterceptor(
-    ):ApiKeyInterceptor=ApiKeyInterceptor()
+    ): ApiKeyInterceptor = ApiKeyInterceptor()
 }

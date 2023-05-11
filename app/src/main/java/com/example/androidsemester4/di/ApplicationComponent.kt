@@ -1,6 +1,5 @@
 package com.example.androidsemester4.di
 
-
 import com.example.androidsemester4.domain.GetNearCitiesUseCase
 import com.example.androidsemester4.domain.LoadWeatherUseCase
 import com.example.androidsemester4.ui.*

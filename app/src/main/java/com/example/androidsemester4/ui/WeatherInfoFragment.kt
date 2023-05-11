@@ -22,7 +22,8 @@ class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
         App().appComponent.inject(this)
         super.onCreate(savedInstanceState)
         (requireActivity().application as App).appComponent.inject(this)
-        viewModel = ViewModelProvider(this, weatherInfoViewModelFactory)[WeatherInfoViewModel::class.java]
+        viewModel =
+            ViewModelProvider(this, weatherInfoViewModelFactory)[WeatherInfoViewModel::class.java]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +40,7 @@ class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
             showSunset(it.sunset)
             showSunrise(it.sunrise)
             binding?.tvWind?.run {
-                text = "Ветер: ${(it.wind.direction)}, ${it.wind.speed} м/с"
+                text = "Ветер: ${it.wind.direction}, ${it.wind.speed} м/с"
             }
         }
     }

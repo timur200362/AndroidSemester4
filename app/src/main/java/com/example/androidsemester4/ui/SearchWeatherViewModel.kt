@@ -14,7 +14,10 @@ import com.example.androidsemester4.ui.Model.City
 import com.google.android.gms.location.*
 import kotlinx.coroutines.launch
 
-class SearchWeatherViewModel(val application: Application, private val getNearCitiesUseCase:GetNearCitiesUseCase) : ViewModel() {
+class SearchWeatherViewModel(
+    val application: Application,
+    private val getNearCitiesUseCase: GetNearCitiesUseCase
+) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean>
@@ -36,7 +39,8 @@ class SearchWeatherViewModel(val application: Application, private val getNearCi
     //с factory
     fun getLocation() {
         val fusedLocation =
-            LocationServices.getFusedLocationProviderClient(application.applicationContext)//без liveData, потому что 1 раз инициализируем. Не участвует в отображении данных
+            LocationServices.getFusedLocationProviderClient(application.applicationContext)
+        //без liveData, потому что 1 раз инициализируем. Не участвует в отображении данных
         val locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
