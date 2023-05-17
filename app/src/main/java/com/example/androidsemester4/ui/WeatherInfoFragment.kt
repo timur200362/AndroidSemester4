@@ -21,7 +21,6 @@ class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
     override fun onCreate(savedInstanceState: Bundle?) {
         App().appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        (requireActivity().application as App).appComponent.inject(this)
         viewModel =
             ViewModelProvider(this, weatherInfoViewModelFactory)[WeatherInfoViewModel::class.java]
     }
