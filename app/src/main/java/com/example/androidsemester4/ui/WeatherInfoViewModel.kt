@@ -6,9 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidsemester4.domain.LoadWeatherUseCase
 import com.example.androidsemester4.domain.Weather
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WeatherInfoViewModel(private val loadWeatherUseCase: LoadWeatherUseCase) : ViewModel() {
+@HiltViewModel
+class WeatherInfoViewModel @Inject constructor(private val loadWeatherUseCase: LoadWeatherUseCase) : ViewModel() {
 
     private val _resultApi = MutableLiveData<Weather>()
     val resultApi: LiveData<Weather>

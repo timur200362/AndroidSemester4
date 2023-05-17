@@ -12,9 +12,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.androidsemester4.domain.GetNearCitiesUseCase
 import com.example.androidsemester4.ui.Model.City
 import com.google.android.gms.location.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchWeatherViewModel(
+@HiltViewModel
+class SearchWeatherViewModel @Inject constructor(
     val application: Application,
     private val getNearCitiesUseCase: GetNearCitiesUseCase
 ) : ViewModel() {

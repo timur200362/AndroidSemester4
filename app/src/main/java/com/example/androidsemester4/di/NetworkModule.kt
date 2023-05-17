@@ -5,6 +5,8 @@ import com.example.androidsemester4.data.interceptor.ApiKeyInterceptor
 import com.example.androidsemester4.data.response.WeatherApi
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,6 +16,7 @@ import java.util.concurrent.TimeUnit
 private const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
 
 @Module
+@InstallIn(SingletonComponent::class)
 class NetworkModule {
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor()

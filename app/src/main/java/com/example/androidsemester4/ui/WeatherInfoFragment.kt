@@ -5,25 +5,21 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
-import com.example.androidsemester4.App
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentWeatherinfoBinding
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
+@AndroidEntryPoint
 class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
     private var binding: FragmentWeatherinfoBinding? = null
     lateinit var viewModel: WeatherInfoViewModel
 
-    @Inject
-    lateinit var weatherInfoViewModelFactory: WeatherInfoViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App().appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        (requireActivity().application as App).appComponent.inject(this)
         viewModel =
-            ViewModelProvider(this, weatherInfoViewModelFactory)[WeatherInfoViewModel::class.java]
+            ViewModelProvider(this)[WeatherInfoViewModel::class.java]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

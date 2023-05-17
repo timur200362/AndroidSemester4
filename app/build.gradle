@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -75,6 +76,11 @@ dependencies {
     // region
     implementation 'com.google.dagger:dagger:2.45'
     kapt 'com.google.dagger:dagger-compiler:2.45'
+    // endregion
+
+    // region DaggerHilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
     // endregion
 
 

@@ -1,8 +1,9 @@
 package com.example.androidsemester4.domain
 
 import com.example.androidsemester4.data.LoadCityRepository
+import javax.inject.Inject
 
-class LoadWeatherUseCase(private val loadCityRepository: LoadCityRepository) {
+class LoadWeatherUseCase @Inject constructor(private val loadCityRepository: LoadCityRepository) {
 
     suspend fun execute(cityName: String): Weather {
         loadCityRepository.getWeather(cityName).run {
