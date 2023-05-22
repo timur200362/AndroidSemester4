@@ -1,7 +1,7 @@
 package com.example.androidsemester4.data
 
 import com.example.androidsemester4.data.response.WeatherApi
-import com.example.androidsemester4.ui.Model.City
+import com.example.androidsemester4.ui.model.City
 import javax.inject.Inject
 
 class CityRepository @Inject constructor(private val weatherApi: WeatherApi) {

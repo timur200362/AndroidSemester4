@@ -1,4 +1,4 @@
-package com.example.androidsemester4.ui.Model
+package com.example.androidsemester4.ui.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
