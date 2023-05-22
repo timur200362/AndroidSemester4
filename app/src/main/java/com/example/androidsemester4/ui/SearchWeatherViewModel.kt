@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.androidsemester4.ui.Model.City
-import com.example.androidsemester4.ui.Model.CityRepository
+import com.example.androidsemester4.ui.model.City
+import com.example.androidsemester4.data.CityRepository
 import kotlinx.coroutines.launch
 
 class SearchWeatherViewModel : ViewModel() {

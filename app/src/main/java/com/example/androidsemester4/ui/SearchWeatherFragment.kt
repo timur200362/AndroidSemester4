@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
+import com.example.androidsemester4.ui.model.CityAdapter
 import com.example.androidsemester4.utils.hideKeyboard
 import com.google.android.gms.location.*
 import kotlinx.coroutines.launch

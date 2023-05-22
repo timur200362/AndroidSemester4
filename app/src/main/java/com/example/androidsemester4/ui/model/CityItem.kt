@@ -1,4 +1,4 @@
-package com.example.androidsemester4.ui.Model
+package com.example.androidsemester4.ui.model
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
