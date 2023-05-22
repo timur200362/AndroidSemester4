@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
+import com.example.androidsemester4.ui.model.CityAdapter
 import com.example.androidsemester4.utils.hideKeyboard
 
 class SearchWeatherFragment : Fragment(R.layout.fragment_searchweather) {

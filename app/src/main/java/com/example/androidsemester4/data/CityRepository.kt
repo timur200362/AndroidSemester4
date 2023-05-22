@@ -1,6 +1,6 @@
 package com.example.androidsemester4.data
 
-import com.example.androidsemester4.ui.Model.City
+import com.example.androidsemester4.ui.model.City
 
 object CityRepository {
     suspend fun getNearCity(latitude: Double, longitude: Double): List<City> {
