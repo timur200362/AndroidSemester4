@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.example.androidsemester4.databinding.ItemCityBinding
-import com.example.androidsemester4.ui.Model.City
-import com.example.androidsemester4.ui.Model.CityItem
+import com.example.androidsemester4.ui.model.City
+import com.example.androidsemester4.ui.model.CityItem
 
 class CityAdapter(
     private val list: List<City>,

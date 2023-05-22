@@ -1,7 +1,7 @@
 package com.example.androidsemester4.data
 
 import com.example.androidsemester4.data.response.WeatherApi
-import com.example.androidsemester4.ui.Model.City
+import com.example.androidsemester4.ui.model.City
 
 class CityRepository(private val weatherApi: WeatherApi) {
     suspend fun getNearCity(latitude: Double, longitude: Double): List<City> {
