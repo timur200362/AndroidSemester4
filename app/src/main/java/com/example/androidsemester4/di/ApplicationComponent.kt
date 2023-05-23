@@ -8,14 +8,14 @@ import dagger.Component
 @Component(modules = [ApplicationModule::class])
 interface ApplicationComponent {
     //SearchWeatherFragment
-    fun inject(fragment: SearchWeatherFragment)
-    fun inject(factory: SearchWeatherViewModelFactory)
-    fun inject(viewModel: SearchWeatherViewModel)
-    fun inject(useCase: GetNearCitiesUseCase)
+    fun injectSearchWeather(fragment: SearchWeatherFragment)
+    fun injectSearchWeatherFactory(factory: SearchWeatherViewModelFactory)
+    fun injectSearchWeatherViewModel(viewModel: SearchWeatherViewModel)
+    fun injectGetNearCities(useCase: GetNearCitiesUseCase)
 
     //WeatherInfoFragment
-    fun inject(fragment: WeatherInfoFragment)
-    fun inject(factory: WeatherInfoViewModelFactory)
-    fun inject(viewModel: WeatherInfoViewModel)
-    fun inject(useCase: LoadWeatherUseCase)
+    fun injectWeatherInfo(fragment: WeatherInfoFragment)
+    fun injectWeatherInfoFactory(factory: WeatherInfoViewModelFactory)
+    fun injectWeatherInfoViewModel(viewModel: WeatherInfoViewModel)
+    fun injectLoadWeather(useCase: LoadWeatherUseCase)
 }
