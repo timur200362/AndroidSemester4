@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentWeatherinfoBinding
-import com.example.androidsemester4.utils.showSnackbar
+import java.util.*
 import kotlin.math.roundToInt
 
 class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
@@ -21,7 +21,7 @@ class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
             showTemp(it.main.temp)
             showFeelsLike(it.main.feelsLike)
             showMaxMinTemp(it.main.tempMax, it.main.tempMin)
-            showDesription(it.weather[0].description)
+            showDescription(it.weather[0].description)
             it.weather.firstOrNull()?.also {
                 showWeatherIcon(it.icon)
             }
@@ -45,10 +45,17 @@ class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
         showName(query)
     }
 
+    private fun convertDate(time: Int): Date {
+        return Date(time.toLong() * 1000)
+    }
 
-    private fun showError(error: Throwable) {
-        activity?.findViewById<View>(android.R.id.content)
-            ?.showSnackbar(error.message ?: "Error")
+    private fun getTime(time: Int): String {
+        val date = convertDate(time)
+        val cal=Calendar.getInstance()
+        cal.time=date
+        val hours=cal.get(Calendar.HOUR_OF_DAY)
+        val minutes=cal.get(Calendar.MINUTE)
+        return "${hours}:${minutes} GMT"
     }
 
     private fun showTemp(temp: Double) {
@@ -81,7 +88,7 @@ class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
         }
     }
 
-    private fun showDesription(description: String) {
+    private fun showDescription(description: String) {
         binding?.tvDescription?.run {
             text = description
         }
@@ -95,13 +102,13 @@ class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
 
     private fun showSunrise(sunrise: Int) {
         binding?.tvSunrise?.run {
-            text = "Восход: $sunrise"
+            text = "Восход: ${getTime(sunrise)}"
         }
     }
 
     private fun showSunset(sunset: Int) {
         binding?.tvSunset?.run {
-            text = "Закат: $sunset"
+            text = "Закат: ${getTime(sunset)}"
         }
     }
 
