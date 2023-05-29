@@ -1,11 +1,12 @@
 package com.example.androidsemester4.domain
 
 import com.example.androidsemester4.data.LoadCityRepository
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class LoadWeatherUseCase @Inject constructor(private val loadCityRepository: LoadCityRepository) {
 
-    suspend fun execute(cityName: String): Weather {
+    fun execute(cityName: String): Single<Weather> {
         loadCityRepository.getWeather(cityName).run {
             return Weather(
                 wind = Wind(getWindInfo(wind.deg), wind.speed),

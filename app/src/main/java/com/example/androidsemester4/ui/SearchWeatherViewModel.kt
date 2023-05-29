@@ -8,17 +8,19 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.androidsemester4.domain.GetNearCitiesUseCase
 import com.example.androidsemester4.ui.model.City
 import com.google.android.gms.location.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.plusAssign
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchWeatherViewModel @Inject constructor(
-    val application: Application,
+    private val application: Application,
     private val getNearCitiesUseCase: GetNearCitiesUseCase
 ) : ViewModel() {
 
@@ -30,13 +32,21 @@ class SearchWeatherViewModel @Inject constructor(
     val cities: LiveData<List<City>>
         get() = _cities
 
+    var disposable: CompositeDisposable = CompositeDisposable()//RxJava
+
     fun getCities(latitude: Double, longitude: Double) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            val listCities = getNearCitiesUseCase.execute(latitude, longitude)
-            _cities.value = listCities
-            _isLoading.value = false
-        }
+        disposable += getNearCitiesUseCase.execute(latitude, longitude)//RxJava
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _isLoading.value = true }
+            .doAfterTerminate { _isLoading.value = false }
+            .subscribeBy(onSuccess = { cities ->
+                _cities.value = cities
+            })
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable.clear()//RxJava
     }
 
     //с factory

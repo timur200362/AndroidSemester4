@@ -1,11 +1,14 @@
 package com.example.androidsemester4.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -14,11 +17,18 @@ import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
 import com.example.androidsemester4.ui.model.CityAdapter
 import com.example.androidsemester4.utils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.BackpressureStrategy
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.Flowables
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class SearchWeatherFragment : Fragment(R.layout.fragment_searchweather) {
     private lateinit var viewModel: SearchWeatherViewModel
     private var binding: FragmentSearchweatherBinding? = null
+    private var searchDisposable: Disposable?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +42,7 @@ class SearchWeatherFragment : Fragment(R.layout.fragment_searchweather) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return FragmentSearchweatherBinding.inflate(inflater, container, false).let {
             binding = it
             it.root
@@ -63,7 +73,23 @@ class SearchWeatherFragment : Fragment(R.layout.fragment_searchweather) {
                 }
                 true
             }
+            searchDisposable=etCity.observeQuery()//RxJava
+                .filter{it.length>2}
+                .debounce (500L, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(onNext = {
+                    //viewModel.onLoadClick(etCity.text.toString())
+                },
+                onError = {
+                    Log.e("Error", it.toString())
+                })
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        searchDisposable?.dispose()
     }
 
 
@@ -87,8 +113,14 @@ class SearchWeatherFragment : Fragment(R.layout.fragment_searchweather) {
             .commit()
     }
 
-
     private fun showLoading(isShow: Boolean) {
         binding?.progress?.isVisible = isShow
     }
+
+    private fun EditText.observeQuery() =//RxJava
+        Flowables.create<String>(mode=BackpressureStrategy.LATEST){emitter->
+            addTextChangedListener {
+                emitter.onNext(it.toString())
+            }
+        }
 }
