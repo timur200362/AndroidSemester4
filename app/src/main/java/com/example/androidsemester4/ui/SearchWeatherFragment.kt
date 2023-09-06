@@ -30,7 +30,7 @@ class SearchWeatherFragment : Fragment(R.layout.fragment_searchweather) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return FragmentSearchweatherBinding.inflate(inflater, container, false).let {
             binding = it
             it.root
