@@ -8,9 +8,8 @@ import javax.inject.Inject
 
 class CityRepository @Inject constructor(private val weatherApi: WeatherApi) {
     fun getNearCity(latitude: Double, longitude: Double): Single<List<City>> {
-        val response = weatherApi.getCities(latitude, longitude, 10)
-        return response.list.map {
-            City(it.name, it.weather[0].icon)
-        }.subscribeOn(Schedulers.io())
+        return weatherApi.getCities(latitude, longitude, 10).map {
+            it.list.map { City(it.name, it.weather[0].icon) }
+        }
     }
 }

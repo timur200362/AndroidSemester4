@@ -7,19 +7,21 @@ import javax.inject.Inject
 class LoadWeatherUseCase @Inject constructor(private val loadCityRepository: LoadCityRepository) {
 
     fun execute(cityName: String): Single<Weather> {
-        loadCityRepository.getWeather(cityName).run {
-            return Weather(
-                wind = Wind(getWindInfo(wind.deg), wind.speed),
-                feelsLike = main.feelsLike,
-                humidity = main.humidity,
-                temp = main.temp,
-                tempMax = main.tempMax,
-                tempMin = main.tempMin,
-                description = weather[0].description,
-                icon = weather[0].icon,
-                sunrise = sys.sunrise,
-                sunset = sys.sunset
-            )
+        return loadCityRepository.getWeather(cityName).map {
+            it.run {
+                Weather(
+                    wind = Wind(getWindInfo(wind.deg), wind.speed),
+                    feelsLike = main.feelsLike,
+                    humidity = main.humidity,
+                    temp = main.temp,
+                    tempMax = main.tempMax,
+                    tempMin = main.tempMin,
+                    description = weather[0].description,
+                    icon = weather[0].icon,
+                    sunrise = sys.sunrise,
+                    sunset = sys.sunset
+                )
+            }
         }
     }
 

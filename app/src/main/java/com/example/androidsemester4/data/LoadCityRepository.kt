@@ -7,5 +7,4 @@ import javax.inject.Inject
 
 class LoadCityRepository @Inject constructor(private val weatherApi: WeatherApi) {
     fun getWeather(cityName: String): Single<WeatherResponce> = weatherApi.getWeather(cityName)
-        .subscribeOn(Schedulers.io())
 }
