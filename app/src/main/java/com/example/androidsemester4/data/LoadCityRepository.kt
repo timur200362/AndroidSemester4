@@ -1,8 +1,11 @@
 package com.example.androidsemester4.data
 
 
-class LoadCityRepository {
-    suspend fun getWeather(cityName: String): WeatherResponce {
-        return DataContainer.weatherApi.getWeather(cityName)
+interface LoadCityRepository {
+    suspend fun getWeather(cityName: String): WeatherResponce
+    companion object{
+        fun getInstance():LoadCityRepository{
+            return LoadCityRepositoryImpl
+        }
     }
 }

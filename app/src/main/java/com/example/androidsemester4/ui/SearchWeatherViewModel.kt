@@ -14,7 +14,7 @@ import com.example.androidsemester4.ui.model.City
 import com.google.android.gms.location.*
 import kotlinx.coroutines.launch
 
-class SearchWeatherViewModel(val application: Application) : ViewModel() {
+class SearchWeatherViewModel(private val application: Application) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean>

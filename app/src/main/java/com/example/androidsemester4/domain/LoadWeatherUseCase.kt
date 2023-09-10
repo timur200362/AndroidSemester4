@@ -5,7 +5,7 @@ import com.example.androidsemester4.data.LoadCityRepository
 class LoadWeatherUseCase {
 
     suspend fun execute(cityName: String): Weather {
-        LoadCityRepository().getWeather(cityName).run {
+        LoadCityRepository.getInstance().getWeather(cityName).run {
             return Weather(
                 wind = Wind(getWindInfo(wind.deg), wind.speed),
                 feelsLike = main.feelsLike,
