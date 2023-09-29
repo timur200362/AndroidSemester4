@@ -1,4 +1,4 @@
-package com.example.androidsemester4.ui
+package com.example.androidsemester4.ui.mvi
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,11 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
+import com.example.androidsemester4.ui.SearchWeatherViewModel
+import com.example.androidsemester4.ui.SearchWeatherViewModelFactory
+import com.example.androidsemester4.ui.WeatherInfoFragment
 import com.example.androidsemester4.ui.model.CityAdapter
 import com.example.androidsemester4.utils.hideKeyboard
 
-class SearchWeatherFragment : Fragment(R.layout.fragment_searchweather) {
-    private lateinit var viewModel: SearchWeatherViewModel
+class SearchWeatherFragmentMVI : Fragment(R.layout.fragment_searchweather) {
+    private lateinit var viewModel: ViewModelMVI
     private var binding: FragmentSearchweatherBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +26,7 @@ class SearchWeatherFragment : Fragment(R.layout.fragment_searchweather) {
         viewModel = ViewModelProvider(
             this,
             SearchWeatherViewModelFactory(requireActivity().application)
-        )[SearchWeatherViewModel::class.java]
+        )[ViewModelMVI::class.java]
     }
 
     override fun onCreateView(
@@ -39,36 +42,18 @@ class SearchWeatherFragment : Fragment(R.layout.fragment_searchweather) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchweatherBinding.bind(view)
-        viewModel.isLoading.observe(viewLifecycleOwner) {
-            showLoading(it)
-        }
-        viewModel.cities.observe(viewLifecycleOwner) {
-            binding?.cityList?.adapter = CityAdapter(
-                it,
-                glide = Glide.with(this@SearchWeatherFragment)
-            ) {
-                loadWeather(it.name)
-            }
-        }
-        binding?.run {
-            btnLoad.setOnClickListener {
-                loadWeather(etCity.text.toString())
-            }
-            etCity.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    onLoadClick()
+        lifecycleScope.launch {
+            viewModel.state.collect {
+                showLoading(it.isLoading)
+                binding?.cityList?.adapter = CityAdapter(
+                    it.data,
+                    glide = Glide.with(this@SearchWeatherFragmentMVI)
+                ) {
+                    loadWeather(it.name)
                 }
-                true
             }
         }
-    }
-
-
-    private fun onLoadClick() {
-        binding?.run {
-            etCity.hideKeyboard()
-            loadWeather(etCity.text.toString())
-        }
+        viewModel.loadNearCities()
     }
 
     private fun loadWeather(query: String) {

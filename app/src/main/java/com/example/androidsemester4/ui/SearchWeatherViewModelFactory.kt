@@ -3,10 +3,11 @@ package com.example.androidsemester4.ui
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.androidsemester4.ui.mvi.ViewModelMVI
 
 class SearchWeatherViewModelFactory(val application: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return SearchWeatherViewModel(
+        return ViewModelMVI(
             application
         ) as T
     }
