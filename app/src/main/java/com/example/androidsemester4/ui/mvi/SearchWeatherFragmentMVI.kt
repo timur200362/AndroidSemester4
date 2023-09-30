@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
@@ -16,6 +17,7 @@ import com.example.androidsemester4.ui.SearchWeatherViewModelFactory
 import com.example.androidsemester4.ui.WeatherInfoFragment
 import com.example.androidsemester4.ui.model.CityAdapter
 import com.example.androidsemester4.utils.hideKeyboard
+import kotlinx.coroutines.launch
 
 class SearchWeatherFragmentMVI : Fragment(R.layout.fragment_searchweather) {
     private lateinit var viewModel: ViewModelMVI
