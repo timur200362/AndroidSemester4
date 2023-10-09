@@ -1,7 +1,14 @@
 package com.example.androidsemester4.ui.mvi
 
+import android.Manifest
 import android.app.Application
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Looper
+import android.util.Log
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewModelScope
+import com.example.androidsemester4.domain.GetLocationUseCase
 import com.example.androidsemester4.domain.GetNearCitiesUseCase
 import com.google.android.gms.location.*
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +18,7 @@ class ViewModelMVI(
     private val application: Application,
 ) : BaseViewModel<MainScreenState, MainScreenUiEvent>() {
 
-    private val reducer = MainReducer(MainScreenState.initial())
+    private val reducer = MainReducer(MainScreenState.initial(), application)
 
     override val state: StateFlow<MainScreenState>
         get() = reducer.state
@@ -21,7 +28,7 @@ class ViewModelMVI(
 
     init {
         viewModelScope.launch {
-            sendEvent(MainScreenUiEvent.LoadCities)
+            sendEvent(MainScreenUiEvent.GetLocation)
         }
     }
 
@@ -32,16 +39,27 @@ class ViewModelMVI(
     }
 
     fun loadNearCities(){
-        sendEvent(MainScreenUiEvent.LoadCities)
+        sendEvent(MainScreenUiEvent.GetLocation)
     }
 
-    private class MainReducer(initial: MainScreenState) : Reducer<MainScreenState, MainScreenUiEvent>(initial) {
+    private class MainReducer(initial: MainScreenState, val context:Context) : Reducer<MainScreenState, MainScreenUiEvent>(initial) {
         override suspend fun reduce(oldState: MainScreenState, event: MainScreenUiEvent) {
             when (event) {
                 is MainScreenUiEvent.LoadCities -> {
-                    val newList=setState(oldState.copy(isLoading = true))
-                    val listCities = GetNearCitiesUseCase().execute(55.7887, 49.1221)
-                    setState(oldState.copy(isLoading = false, data = listCities))
+                    setState(oldState.copy(isLoading = true))
+                    val listCities = GetNearCitiesUseCase().execute(event.location.latitude,event.location.longitude)
+                    setState(oldState.copy(isLoading = false, data = listCities))//newState
+                }
+                is MainScreenUiEvent.GetLocation -> {
+                    setState(oldState.copy(determinateLocation = true))
+                    val location = GetLocationUseCase(context).getLocation()
+                    val newState = setState(oldState.copy(determinateLocation = false))
+                    if (location != null) {
+                        reduce(newState,MainScreenUiEvent.LoadCities(location))
+                    }
+                    else{
+                        Log.e("test","null")
+                    }
                 }
             }
         }

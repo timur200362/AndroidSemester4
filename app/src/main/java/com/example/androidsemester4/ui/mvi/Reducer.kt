@@ -21,12 +21,13 @@ abstract class Reducer<S : UiState, E : UiEvent>(initialVal: S) {
         reduce(_state.value, event)
     }
 
-    fun setState(newState: S) {
+    fun setState(newState: S):S {
         val success = _state.tryEmit(newState)
 
         if (success) {
             timeCapsule.addState(newState)
         }
+        return newState
     }
 
     abstract suspend fun reduce(oldState: S, event: E)
