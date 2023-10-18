@@ -1,6 +1,7 @@
-package com.example.androidsemester4.ui.mvi
+package com.example.androidsemester4.ui.mvi.mainPage
 
 import com.example.androidsemester4.ui.model.City
+import com.example.androidsemester4.ui.mvi.mviRealisation.UiState
 
 data class MainScreenState(
     val isLoading: Boolean,

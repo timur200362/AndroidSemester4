@@ -1,4 +1,4 @@
-package com.example.androidsemester4.ui
+package com.example.androidsemester4.ui.mvvm
 
 import android.os.Bundle
 import android.view.View
@@ -26,7 +26,7 @@ class WeatherInfoFragment : Fragment(R.layout.fragment_weatherinfo) {
             showSunset(it.sunset)
             showSunrise(it.sunrise)
             binding?.tvWind?.run {
-                text = "Ветер: ${it.wind.direction}, ${it.wind.speed} м/с"
+                text = "Ветер: ${it.windUi.direction}, ${it.windUi.speed} м/с"
             }
         }
     }

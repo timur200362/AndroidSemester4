@@ -1,16 +1,14 @@
-package com.example.androidsemester4.ui.mvi
+package com.example.androidsemester4.ui.mvi.mainPage
 
-import android.Manifest
 import android.app.Application
 import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Looper
 import android.util.Log
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewModelScope
 import com.example.androidsemester4.domain.GetLocationUseCase
 import com.example.androidsemester4.domain.GetNearCitiesUseCase
-import com.google.android.gms.location.*
+import com.example.androidsemester4.ui.mvi.mviRealisation.BaseViewModel
+import com.example.androidsemester4.ui.mvi.mviRealisation.Reducer
+import com.example.androidsemester4.ui.mvi.mviRealisation.TimeCapsule
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
@@ -55,7 +53,7 @@ class ViewModelMVI(
                     val location = GetLocationUseCase(context).getLocation()
                     val newState = setState(oldState.copy(determinateLocation = false))
                     if (location != null) {
-                        reduce(newState,MainScreenUiEvent.LoadCities(location))
+                        reduce(newState, MainScreenUiEvent.LoadCities(location))
                     }
                     else{
                         Log.e("test","null")

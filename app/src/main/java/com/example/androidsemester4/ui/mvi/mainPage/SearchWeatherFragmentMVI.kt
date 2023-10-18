@@ -1,10 +1,9 @@
-package com.example.androidsemester4.ui.mvi
+package com.example.androidsemester4.ui.mvi.mainPage
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -12,11 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
-import com.example.androidsemester4.ui.SearchWeatherViewModel
 import com.example.androidsemester4.ui.SearchWeatherViewModelFactory
-import com.example.androidsemester4.ui.WeatherInfoFragment
+import com.example.androidsemester4.ui.mvvm.WeatherInfoFragment
 import com.example.androidsemester4.ui.model.CityAdapter
-import com.example.androidsemester4.utils.hideKeyboard
 import kotlinx.coroutines.launch
 
 class SearchWeatherFragmentMVI : Fragment(R.layout.fragment_searchweather) {
@@ -53,6 +50,11 @@ class SearchWeatherFragmentMVI : Fragment(R.layout.fragment_searchweather) {
                 ) {
                     loadWeather(it.name)
                 }
+            }
+        }
+        binding?.run {
+            btnLoad.setOnClickListener {
+                loadWeather(etCity.text.toString())
             }
         }
         viewModel.loadNearCities()

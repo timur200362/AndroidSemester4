@@ -1,4 +1,4 @@
-package com.example.androidsemester4.ui
+package com.example.androidsemester4.ui.mvvm
 
 import android.Manifest
 import android.app.Application

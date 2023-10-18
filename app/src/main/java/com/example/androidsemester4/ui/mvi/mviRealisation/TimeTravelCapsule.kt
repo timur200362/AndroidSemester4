@@ -1,4 +1,4 @@
-package com.example.androidsemester4.ui.mvi
+package com.example.androidsemester4.ui.mvi.mviRealisation
 
 class TimeTravelCapsule<S : UiState>(
     private val onStateSelected: (S) -> Unit

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.ActivityMainBinding
-import com.example.androidsemester4.ui.mvi.SearchWeatherFragmentMVI
+import com.example.androidsemester4.ui.mvi.mainPage.SearchWeatherFragmentMVI
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null

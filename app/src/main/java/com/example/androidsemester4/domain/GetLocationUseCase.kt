@@ -1,12 +1,11 @@
 package com.example.androidsemester4.domain
 
 import android.Manifest
-import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Looper
 import androidx.core.app.ActivityCompat
-import com.example.androidsemester4.ui.mvi.Location
+import com.example.androidsemester4.ui.mvi.mainPage.Location
 import com.google.android.gms.location.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine

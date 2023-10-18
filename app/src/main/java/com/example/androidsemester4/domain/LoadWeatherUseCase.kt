@@ -4,10 +4,10 @@ import com.example.androidsemester4.data.LoadCityRepository
 
 class LoadWeatherUseCase {
 
-    suspend fun execute(cityName: String): Weather {
+    suspend fun execute(cityName: String): WeatherUi {
         LoadCityRepository.getInstance().getWeather(cityName).run {
-            return Weather(
-                wind = Wind(getWindInfo(wind.deg), wind.speed),
+            return WeatherUi(
+                windUi = WindUi(getWindInfo(wind.deg), wind.speed),
                 feelsLike = main.feelsLike,
                 humidity = main.humidity,
                 temp = main.temp,
@@ -37,20 +37,20 @@ class LoadWeatherUseCase {
     }
 }
 
-data class Wind(
-    val direction: String,
-    val speed: Double
+data class WindUi(
+    val direction: String = "",
+    val speed: Double = 0.0
 )
 
-data class Weather(
-    val wind: Wind,
-    val feelsLike: Double,
-    val humidity: Int,
-    val temp: Double,
-    val tempMax: Double,
-    val tempMin: Double,
-    val description: String,
-    val icon: String,
-    val sunrise: Int,
-    val sunset: Int
+data class WeatherUi(
+    val windUi: WindUi = WindUi(),
+    val feelsLike: Double = 0.0,
+    val humidity: Int = 0,
+    val temp: Double = 0.0,
+    val tempMax: Double = 0.0,
+    val tempMin: Double = 0.0,
+    val description: String = "",
+    val icon: String = "",
+    val sunrise: Int = 0,
+    val sunset: Int = 0
 )

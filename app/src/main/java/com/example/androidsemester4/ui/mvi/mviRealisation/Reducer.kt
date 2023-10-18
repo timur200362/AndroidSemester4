@@ -1,4 +1,4 @@
-package com.example.androidsemester4.ui.mvi
+package com.example.androidsemester4.ui.mvi.mviRealisation
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
