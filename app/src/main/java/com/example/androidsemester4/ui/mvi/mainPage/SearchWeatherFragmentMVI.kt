@@ -12,8 +12,8 @@ import com.bumptech.glide.Glide
 import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
 import com.example.androidsemester4.ui.SearchWeatherViewModelFactory
-import com.example.androidsemester4.ui.mvvm.WeatherInfoFragment
 import com.example.androidsemester4.ui.model.CityAdapter
+import com.example.androidsemester4.ui.mvi.secondPage.WeatherInfoFragmentMVI
 import kotlinx.coroutines.launch
 
 class SearchWeatherFragmentMVI : Fragment(R.layout.fragment_searchweather) {
@@ -66,8 +66,8 @@ class SearchWeatherFragmentMVI : Fragment(R.layout.fragment_searchweather) {
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(
                 R.id.container,
-                WeatherInfoFragment.getInstance(bundle),
-                WeatherInfoFragment.WeatherInfoFragment_TAG
+                WeatherInfoFragmentMVI.getInstance(bundle),
+                WeatherInfoFragmentMVI.WeatherInfoFragment_TAG
             )
             .addToBackStack(null)
             .commit()
