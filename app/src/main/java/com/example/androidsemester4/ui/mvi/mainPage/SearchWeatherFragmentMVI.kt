@@ -13,6 +13,7 @@ import com.example.androidsemester4.R
 import com.example.androidsemester4.databinding.FragmentSearchweatherBinding
 import com.example.androidsemester4.ui.SearchWeatherViewModelFactory
 import com.example.androidsemester4.ui.model.CityAdapter
+import com.example.androidsemester4.ui.mvi.secondPage.WeatherInfoComposeFragmentMVI
 import com.example.androidsemester4.ui.mvi.secondPage.WeatherInfoFragmentMVI
 import kotlinx.coroutines.launch
 
@@ -66,8 +67,8 @@ class SearchWeatherFragmentMVI : Fragment(R.layout.fragment_searchweather) {
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(
                 R.id.container,
-                WeatherInfoFragmentMVI.getInstance(bundle),
-                WeatherInfoFragmentMVI.WeatherInfoFragment_TAG
+                WeatherInfoComposeFragmentMVI.getInstance(bundle),
+                WeatherInfoComposeFragmentMVI.WeatherInfoFragment_TAG
             )
             .addToBackStack(null)
             .commit()
