@@ -25,13 +25,7 @@ class WeatherInfoComposeFragmentMVI : Fragment() {
         lifecycleScope.launch {
             viewModel.state.collect {
                 val weatherUi=it.weatherUi
-                showTemp(weatherUi.temp)
-                showFeelsLike(weatherUi.feelsLike)
-                showMaxMinTemp(weatherUi.tempMax, weatherUi.tempMin)
-                showDesription(weatherUi.description)
                 showWeatherIcon(weatherUi.icon)
-                showSunset(weatherUi.sunset)
-                showSunrise(weatherUi.sunrise)
                 binding?.tvWind?.run {
                     text = "Ветер: ${weatherUi.windUi.direction}, ${weatherUi.windUi.speed} м/с"
                 }
@@ -59,61 +53,11 @@ class WeatherInfoComposeFragmentMVI : Fragment() {
         viewModel.loadWeather(query)
     }
 
-
-    private fun showTemp(temp: Double) {
-        binding?.tvTemp?.run {
-            text = "${temp.roundToInt()}°"
-        }
-    }
-
-    private fun showFeelsLike(feelsLike: Double) {
-        binding?.tvFeelsLike?.run {
-            text = "Ощущается как ${feelsLike.roundToInt()}°"
-        }
-    }
-
-    private fun showMaxMinTemp(tempMax: Double, tempMin: Double) {
-        binding?.tvTempMaxMin?.run {
-            text = "${tempMax.roundToInt()}°/${tempMin.roundToInt()}°"
-        }
-    }
-
     private fun showWeatherIcon(id: String) {
         binding?.ivIcon?.load("https://openweathermap.org/img/w/$id.png") {
             crossfade(true)
         }
     }
-
-    private fun showName(name: String) {
-        binding?.tvName?.run {
-            text = name
-        }
-    }
-
-    private fun showDesription(description: String) {
-        binding?.tvDescription?.run {
-            text = description
-        }
-    }
-
-    private fun showHumidity(humidity: Int) {
-        binding?.tvHumidity?.run {
-            text = "Влажность: $humidity%"
-        }
-    }
-
-    private fun showSunrise(sunrise: Int) {
-        binding?.tvSunrise?.run {
-            text = "Восход: $sunrise"
-        }
-    }
-
-    private fun showSunset(sunset: Int) {
-        binding?.tvSunset?.run {
-            text = "Закат: $sunset"
-        }
-    }
-
     companion object {
         const val WeatherInfoFragment_TAG = "WeatherInfoFragment_TAG"
         fun getInstance(bundle: Bundle?): WeatherInfoComposeFragmentMVI {
