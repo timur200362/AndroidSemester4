@@ -1,12 +1,15 @@
 package com.example.androidsemester4.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.androidsemester4.ui.mvi.secondPage.SecondScreenState
 
 
@@ -20,4 +23,9 @@ fun ComposeTest(name:String,state:SecondScreenState) {
     Text("${state.weatherUi.description}", color = Color.White,modifier = Modifier.padding(top=75.dp))
     Text("Восход: ${state.weatherUi.sunrise}",color = Color.White, modifier = Modifier.padding(top=90.dp))
     Text("Закат: ${state.weatherUi.sunset}",color = Color.White, modifier = Modifier.padding(top=105.dp))
+    AsyncImage(
+        model = "https://openweathermap.org/img/w/${state.weatherUi.icon}.png",
+        contentDescription = null,
+        modifier = Modifier.padding(top=120.dp)
+    )
 }

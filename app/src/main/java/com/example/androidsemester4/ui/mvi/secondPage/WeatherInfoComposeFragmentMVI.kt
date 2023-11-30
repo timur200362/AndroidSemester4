@@ -39,7 +39,8 @@ class WeatherInfoComposeFragmentMVI : Fragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                ComposeTest(arguments?.getString("cityName") ?:"", viewModel.state.collectAsStateWithLifecycle().value)
+                ComposeTest(arguments?.getString("cityName") ?:"",
+                    viewModel.state.collectAsStateWithLifecycle().value)
             }
         }
     }
